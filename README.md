@@ -10,3 +10,7 @@ Supporting dataset for the V5 manuscript by Zihao Peng and Zhuoye Li. Files in d
 | S7_Table.tsv | Cross-connectome motif comparisons and shared intermediates |
 
 The input connectomes are distributed by their original providers: [FlyWire](https://codex.flywire.ai/), [BANC v888](https://doi.org/10.7910/DVN/7WTH1N), and [MaleCNS](https://neuprint.janelia.org/). The present snapshot contains study outputs. SHA256SUMS lists the checksums of all nine supporting files.
+
+## Simulation results
+
+The results/ directory contains the eight study result JSON files, including the pre-submission calibration experiments and V5 reviewer controls. Source snapshot: b17701dc5fd643a30ce5c96d642061194e12ebb6.
