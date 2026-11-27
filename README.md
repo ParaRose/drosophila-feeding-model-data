@@ -1,6 +1,6 @@
 # Cross-connectome transfer of a Drosophila spiking feeding model: proofreading stability, reconstruction shifts, and homolog calibration
 
-Supporting dataset and MIT-licensed code for the V7 manuscript by Zihao Peng and Zhuoye Li (release `v7.0`; releases `v5.0` and `v6.0` are retained for provenance). Files in `data/` match the submission supplements. `S1_Text.pdf` describes the protocols and expanded disinhibition details; `S1_Fig.tif` and `S1_Table`–`S7_Table` report the supporting results; `docs/MN9_PORTABILITY_PROTOCOL_zh.md` archives the original Chinese-language analysis protocol (timestamped 2026-11-24 10:51:58 +0800).
+Supporting dataset and MIT-licensed code for the V7.1 manuscript by Zihao Peng and Zhuoye Li (release `v7.1`; releases `v5.0`, `v6.0`, and `v7.0` are retained for provenance). Files in `data/` match the submission supplements. `S1_Text.pdf` describes the protocols and expanded disinhibition details; `S1_Fig.tif` and `S1_Table`–`S7_Table` report the supporting results; `docs/MN9_PORTABILITY_PROTOCOL_zh.md` archives the original Chinese-language analysis protocol (timestamped 2026-11-24 10:51:58 +0800).
 
 | Machine-readable file | Contents |
 | --- | --- |
@@ -10,6 +10,13 @@ Supporting dataset and MIT-licensed code for the V7 manuscript by Zihao Peng and
 | `data/S7_Table.tsv` | Cross-connectome motif comparisons and shared intermediates |
 
 The input connectomes are distributed by their original providers: [FlyWire](https://codex.flywire.ai/), [BANC v888](https://doi.org/10.7910/DVN/7WTH1N), and [MaleCNS](https://neuprint.janelia.org/). The present snapshot contains study outputs, scripts, and manifests. `SHA256SUMS` lists SHA-256 checksums for every archived file (`data/`, `results/`, `code/`, and `docs/`).
+
+## Changes in v7.1 (retaining v5.0, v6.0, and v7.0 for provenance)
+
+- Fixed the BANC reviewed-match column names (`valid == "t"`, `pt_root_id`, `match_id`) and removed a workstation-specific path in `code/mn9_v7_final_controls.py`, regenerating `results/mn9_v7_final_controls_results.json` so BANC `homolog 1:1+CT` 3-hop ReLU exactly matches `0.5969` at `α_3 = 0` and reaches `0.6783` at fixed `α_3 = 10^-4` (`p = 0.0002` above BANC homolog LIF), and BANC `1:1+CT` 200 Hz SELK recruits `MN8` (`0.68 Hz`) alongside `Amulet` (`41.60 Hz`), reproducing 200 Hz `MN8` recruitment across all three connectomes.
+- Fixed the `MaleCNS (predicted_nt, raw-mV C·w_post)` row in `data/S2_Table.pdf` (`S2C`) to match `results/mn9_v7_final_controls_results.json` identically (preserving scale invariance `pure_h2 = 0.5233`), headlined the single shared label-free `α_3 = 10^-4` three-hop comparator (`0.681 / 0.678 / 0.678`), and corrected non-MN9 motor-neuron denominators (`0/17`) and `S2H` trial/fly units.
+- Harmonized MaleCNS intact-left MN9 local-biasing counts in `data/S1_Text.pdf` under a uniform `>= +1.0 Hz, p < 0.01` criterion (`phantom` `10/12`, `usnea` `+19.10 Hz`, `SELK` VNC-targeted Direct `1/4` at 50 Hz and `0/4` at 200 Hz).
+- Updated `code/english_figures.py` so `Fig 1B` uses uniform `B = 100,000, seed = 42` CIs matching `Fig 2C–D` and `S2A`, and extended `code/verify_s2a_from_archived_jsons.py` with programmatic assertions across `S2A`, `S2C`, `S2F`, `S1_Table.tsv`, and `S5_Table.tsv`.
 
 ## Changes in v7.0 (retaining v5.0 and v6.0 for provenance)
 

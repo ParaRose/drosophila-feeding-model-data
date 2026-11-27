@@ -1007,6 +1007,19 @@ def make_fig1(data: dict[str, dict], est: dict, preview_dir: Path | None) -> Non
     bar_w = 0.23
     rng = np.random.default_rng(7)
 
+    # Uniform B=100,000 seed-42 stratified bootstrap CIs for Fig 1B (matching Fig 2C-D & S2A)
+    pt3_f1 = data["malecns"]["per_type_3brains"]
+    y_f1 = np.array([int(r["y_bin"]) for r in pt3_f1], dtype=int)
+    v7_f1 = np.array([float(r["v783_50hz"]) for r in pt3_f1], dtype=float)
+    s2_f1 = np.array([float(r["v783_static_2hop_relu"]) for r in pt3_f1], dtype=float)
+    nd_f1 = np.array([not bool(r["is_direct_v783"]) for r in pt3_f1], dtype=bool)
+    f1b_ci100k = {
+        ("all106", "real"): _strat_auprc_ci95(y_f1, v7_f1, n_boot=100000, seed=42),
+        ("all106", "static"): _strat_auprc_ci95(y_f1, s2_f1, n_boot=100000, seed=42),
+        ("nondirect83", "real"): _strat_auprc_ci95(y_f1[nd_f1], v7_f1[nd_f1], n_boot=100000, seed=42),
+        ("nondirect83", "static"): _strat_auprc_ci95(y_f1[nd_f1], s2_f1[nd_f1], n_boot=100000, seed=42),
+    }
+
     for s_idx, (s_label, s_obj, k100_key, c2_obj, comp_obj, chance) in enumerate(subsets):
         xc = x_centers[s_idx]
         ax.hlines(chance, xc - 0.80, xc + 0.80, colors=SLATE, linestyles=":", lw=1.0, zorder=1)
@@ -1016,13 +1029,13 @@ def make_fig1(data: dict[str, dict], est: dict, preview_dir: Path | None) -> Non
             lab = mlab if s_idx == 0 else None
             if mtype == "real":
                 pt = s_obj["bootstrap"]["real_lif_50hz"]["point"]["auprc"]
-                lo, hi = s_obj["bootstrap"]["real_lif_50hz"]["ci95"]["auprc"]
+                lo, hi = f1b_ci100k[(k100_key, "real")]
                 ax.bar(xp, pt, width=bar_w, color=col, alpha=0.88, label=lab, zorder=2)
                 ax.errorbar(xp, pt, yerr=[[pt - lo], [hi - pt]], fmt="none", ecolor=DARK, elinewidth=0.95, capsize=2.4, zorder=4)
                 ax.text(xp, hi + 0.022, f"{pt:.3f}", ha="center", va="bottom", fontsize=6.8, fontweight="bold", color=TEAL)
             elif mtype == "static":
                 pt = s_obj["bootstrap"]["static_2hop_relu_signed"]["point"]["auprc"]
-                lo, hi = s_obj["bootstrap"]["static_2hop_relu_signed"]["ci95"]["auprc"]
+                lo, hi = f1b_ci100k[(k100_key, "static")]
                 ax.bar(xp, pt, width=bar_w, color=col, alpha=0.82, label=lab, zorder=2)
                 ax.errorbar(xp, pt, yerr=[[pt - lo], [hi - pt]], fmt="none", ecolor=DARK, elinewidth=0.95, capsize=2.4, zorder=4)
                 ax.text(xp, hi + 0.022, f"{pt:.3f}", ha="center", va="bottom", fontsize=6.6, color=ORANGE)

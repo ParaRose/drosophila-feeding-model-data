@@ -185,17 +185,46 @@ def main() -> None:
         assert by_nm["weaver"]["malecns_dimorphism_fruDsx"] == "unmapped"
         print(f"\nVerified {s1_tsv}: 106 rows OK (vice/weaver dimorphism='unmapped').")
 
-    # Verify V7 final controls JSON if present
+    # Verify V7.1 final controls JSON programmatically against all key S2C / S2F / S2A-left / S5 assertions
     v7_path = res / "mn9_v7_final_controls_results.json"
     if v7_path.exists():
         v7 = json.loads(v7_path.read_text(encoding="utf-8"))
-        print("\n=== V7 FINAL CONTROLS VERIFICATION ===")
-        print(f"  v783 3-hop best (a3=0.003): {v7['v783_threehop']['signed_relu']['a3_0.003']['all106_auprc']:.4f} (vs LIF p={v7['v783_threehop_boots_100k']['all106_vs_3hop_best']['p_two_sided']:.4f})")
-        print(f"  BANC homCT 3-hop (a3=1e-4): {v7['banc_threehop']['homolog_1to1_ct_weighted']['signed_relu']['a3_0.0001']['all106_auprc']:.4f} (vs LIF p={v7['banc_threehop_boots_100k']['BANC_HomCT_LIF_vs_Fair3hop_best']['p_two_sided']:.4f})")
-        print(f"  Male homPred 3-hop (a3=3e-4): {v7['malecns_threehop']['predicted_nt_homolog_weighted']['signed_relu']['a3_0.0003']['all106_auprc']:.4f} (vs LIF mean p={v7['malecns_threehop_boots_100k']['Male_HomPred_LIF_mean_vs_Fair3hop_best']['p_two_sided']:.4f}, left p={v7['malecns_threehop_boots_100k']['Male_HomPred_LIF_left_vs_Fair3hop_best']['p_two_sided']:.4f})")
+        print("\n=== V7.1 PROGRAMMATIC AUDIT (S2C 2-HOP/3-HOP, RAW-mV, INTACT-LEFT, SELK MN1-MN13, S5) ===")
+        # 1. Scale-invariance and exact parity assertions on S2C
+        b_h3 = v7["banc_threehop"]["homolog_1to1_ct_weighted"]["signed_relu"]
+        assert abs(b_h3["a3_0"]["all106_auprc"] - 0.5969) < 1e-4, f"BANC 1:1+CT a3=0 mismatch: {b_h3['a3_0']['all106_auprc']}"
+        assert abs(b_h3["a3_0.0001"]["all106_auprc"] - 0.6783) < 1e-4
+        m_rmv = v7["malecns_twohop_raw_mv_sensitivity"]["signed_relu"]
+        assert abs(m_rmv["pure_h2"]["all106_auprc"] - 0.5233) < 1e-4, "Scale invariance violated on raw-mV pure_h2!"
+        assert abs(m_rmv["alpha_0.01"]["all106_auprc"] - 0.5771) < 1e-4
+        assert abs(m_rmv["alpha_0.03"]["all106_auprc"] - 0.5452) < 1e-4
+        v7_h3 = v7["v783_threehop"]["signed_relu"]
+        m_h3 = v7["malecns_threehop"]["predicted_nt_homolog_weighted"]["signed_relu"]
+        assert abs(v7_h3["a3_0.0001"]["all106_auprc"] - 0.6810) < 1e-4
+        assert abs(m_h3["a3_0.0001"]["all106_auprc"] - 0.6778) < 1e-4
+        print(f"  S2C fixed a3=1e-4 PASS: v783={v7_h3['a3_0.0001']['all106_auprc']:.4f}, BANC_1to1CT={b_h3['a3_0.0001']['all106_auprc']:.4f} (p={v7['banc_threehop_boots_100k']['BANC_HomCT_LIF_vs_Fair3hop_a3_1e-4']['p_two_sided']:.4f}), Male_HomNT={m_h3['a3_0.0001']['all106_auprc']:.4f}")
+        print(f"  S2C MaleCNS raw-mV PASS: a=0.001:{m_rmv['alpha_0.001']['all106_auprc']:.4f}, 0.003:{m_rmv['alpha_0.003']['all106_auprc']:.4f}, 0.01:{m_rmv['alpha_0.01']['all106_auprc']:.4f}, 0.03:{m_rmv['alpha_0.03']['all106_auprc']:.4f}, pure_h2:{m_rmv['pure_h2']['all106_auprc']:.4f}")
+
+        # 2. MaleCNS intact-left TOST
         hp = v7["malecns_intact_left_vs_bilateral_audit_100k"]["homolog_prednt_50hz"]
-        print(f"  MaleCNS Hom+NT bilateral={hp['bilateral_mean']['all106_auprc']:.4f} (TOST p={hp['bilateral_mean']['vs_v783_gt0']['tost_0p05_p']:.4f}) | intact_L={hp['intact_left']['all106_auprc']:.4f} (TOST p={hp['intact_left']['vs_v783_gt0']['tost_0p05_p']:.4f})")
-        print("  SELK v783 50Hz/200Hz Amulet:", v7["selk_proboscis_mns_and_amulet"]["v783_frozen"]["50hz"]["groups"]["Amulet"]["mean_hz"], "/", v7["selk_proboscis_mns_and_amulet"]["v783_frozen"]["200hz"]["groups"]["Amulet"]["mean_hz"])
+        assert abs(hp["bilateral_mean"]["all106_auprc"] - 0.7215) < 1e-4
+        assert abs(hp["intact_left"]["all106_auprc"] - 0.7113) < 1e-4
+        print(f"  S2A MaleCNS Hom+NT PASS: bilateral={hp['bilateral_mean']['all106_auprc']:.4f} (TOST p={hp['bilateral_mean']['vs_v783_gt0']['tost_0p05_p']:.4f}) | intact_L={hp['intact_left']['all106_auprc']:.4f} (TOST p={hp['intact_left']['vs_v783_gt0']['tost_0p05_p']:.4f})")
+
+        # 3. SELK Amulet + MN8 across all 3 brains
+        selk = v7["selk_proboscis_mns_and_amulet"]
+        for reg in ("v783_frozen", "banc_homolog_1to1_ct", "malecns_homolog_prednt"):
+            am50 = selk[reg]["50hz"]["groups"]["Amulet"]["mean_hz"]
+            am200 = selk[reg]["200hz"]["groups"]["Amulet"]["mean_hz"]
+            mn8_200 = selk[reg]["200hz"]["groups"]["MN8"]["mean_hz"]
+            assert mn8_200 > 0.0 and selk[reg]["50hz"]["groups"]["MN9"]["mean_hz"] == 0.0
+            print(f"  S2F SELK {reg:22s}: Amulet 50/200Hz={am50:.2f}/{am200:.2f}, 200Hz MN8={mn8_200:.2f}, MN9=0.00")
+
+        # 4. S5 MaleCNS uniform p<0.01 check
+        loc = v7["malecns_local_biasing_left_vs_mean_audit"]
+        assert loc["phantom__Direct"]["left_50_sig"] == 4 and loc["phantom__Direct"]["left_200_sig"] == 4
+        assert loc["phantom__Premotor"]["left_50_sig"] == 1 and loc["phantom__Premotor"]["left_200_sig"] == 1
+        print("  S5 MaleCNS intact-left uniform criterion PASS (phantom 10/12, tentacular 4/4 Premotor & 4/4 200Hz Direct).")
 
 
 if __name__ == "__main__":

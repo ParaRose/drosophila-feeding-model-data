@@ -454,10 +454,12 @@ def main() -> None:
     opener = gzip.open if is_gz else open
     with opener(rm_path, "rt", encoding="utf-8") as f:
         for r in csv.DictReader(f):
-            fs, bs = str(r.get("fafb_id") or ""), str(r.get("banc_id") or "")
-            if not (fs.isdigit() and bs.isdigit()):
+            if r.get("valid") != "t":
                 continue
-            fid, bid_raw = int(fs), int(bs)
+            try:
+                bid_raw, fid = int(r["pt_root_id"]), int(r["match_id"])
+            except Exception:
+                continue
             sv_s = str(r.get("pt_supervoxel_id") or "")
             if bid_raw in bid2idx_b:
                 bid = bid_raw
@@ -469,6 +471,7 @@ def main() -> None:
                 continue
             if fid in s_in_v783_by_fid and s_in_v783_by_fid[fid] > 0:
                 banc_to_fafb_sins[bid2idx_b[bid]].append(s_in_v783_by_fid[fid])
+    assert len(banc_to_fafb_sins) > 50000, f"Expected >50k BANC 1:1 reviewed matches, got {len(banc_to_fafb_sins)}"
 
     w_post_b_1to1 = np.full(n_b, ab.W_BANC_DENS, dtype=np.float64)
     for j, f_sins in banc_to_fafb_sins.items():
@@ -487,6 +490,8 @@ def main() -> None:
         "raw": compute_threehop_family(indptr_b, indices_b, w_b, n_b, mn9_b, sez_b, y, prior_pub, is_dir_b),
         "homolog_1to1_ct_weighted": compute_threehop_family(indptr_b, indices_b, w_b * (w_post_b_ct[indices_b] / ab.W_FROZEN), n_b, mn9_b, sez_b, y, prior_pub, is_dir_b),
     }
+    _chk_b2 = banc_3hop["homolog_1to1_ct_weighted"]["signed_relu"]["a3_0"]["all106_auprc"]
+    assert abs(_chk_b2 - 0.5969) < 1e-3, f"BANC 1:1+CT a3=0 mismatch vs v5 (0.5969): got {_chk_b2:.4f}"
     banc_lif_ct = np.array(v5_res["phase1_banc"]["minor6_banc_celltype_homolog"]["banc_homolog_1to1_plus_celltype"]["sweeps"]["50hz"]["per_type_mean_hz"])
     banc_3hop_boots = {
         "BANC_HomCT_LIF_vs_Fair3hop_a3_1e-4": paired_boot_vec(y, banc_lif_ct, np.array(banc_3hop["homolog_1to1_ct_weighted"]["scores_a3_1e-4_signed"]), bidx106),
@@ -746,31 +751,49 @@ def main() -> None:
     # =========================================================================
     print("\n=== PART 5: MaleCNS Local Biasing Intact Left MN9 vs Bilateral Mean Audit ===", flush=True)
     dis_res = json.loads((BASE_DIR / "mn9_disinhibition_results.json").read_text())
-    s5_path = Path("/home/eros/.gemini/antigravity/brain/0610fc61-389c-43d0-b613-0c319324c179/scratch/ProjC_V6_Submission_Package/S5_Table.tsv")
-    direct_audit = defaultdict(lambda: {"n_pts": 0, "mean_50_ge1": 0, "left_50_ge1": 0, "mean_200_ge1": 0, "left_200_ge1": 0, "rows": []})
+    s5_candidates = [
+        BASE_DIR / "english_manuscript/supp_table2_102_local_oracles.tsv",
+        BASE_DIR.parent / "data/S5_Table.tsv",
+        BASE_DIR / "data/S5_Table.tsv",
+    ]
+    s5_path = next((p for p in s5_candidates if p.exists()), None)
+    assert s5_path is not None, f"Could not locate S5_Table.tsv in {s5_candidates}"
+    direct_audit = defaultdict(lambda: {
+        "n_pts": 0,
+        "mean_50_sig": 0, "left_50_sig": 0, "left_50_ge1_only": 0,
+        "mean_200_sig": 0, "left_200_sig": 0, "left_200_ge1_only": 0,
+        "rows": [],
+    })
     with s5_path.open() as f:
         for r in csv.DictReader(f, delimiter="\t"):
             if "male" not in r["brain"].lower():
                 continue
             cfg = r["oracle_config"]
-            is_direct_cfg = "direct" in cfg.lower() or "dir_" in cfg.lower() or "dir" in cfg.lower() and "pre" not in cfg.lower()
+            is_direct_cfg = "direct" in cfg.lower() or "dir_" in cfg.lower() or ("dir" in cfg.lower() and "pre" not in cfg.lower())
             is_pre_cfg = "pre" in cfg.lower()
             kind = "Direct" if is_direct_cfg else ("Premotor" if is_pre_cfg else "Other")
             key = f"{r['candidate']}__{kind}"
-            d50m, d50l = float(r["delta_50hz_mean"]), float(r["delta_50hz_l"])
-            d200m, d200l = float(r["delta_200hz_mean"]), float(r["delta_200hz_l"])
+            d50m, d50l, p50 = float(r["delta_50hz_mean"]), float(r["delta_50hz_l"]), float(r["p_50hz"])
+            d200m, d200l, p200 = float(r["delta_200hz_mean"]), float(r["delta_200hz_l"]), float(r["p_200hz"])
             st = direct_audit[key]
             st["n_pts"] += 1
-            st["mean_50_ge1"] += int(d50m >= 1.0)
-            st["left_50_ge1"] += int(d50l >= 1.0)
-            st["mean_200_ge1"] += int(d200m >= 1.0)
-            st["left_200_ge1"] += int(d200l >= 1.0)
+            st["mean_50_sig"] += int(d50m >= 1.0 and p50 < 0.01)
+            st["left_50_sig"] += int(d50l >= 1.0 and p50 < 0.01)
+            st["left_50_ge1_only"] += int(d50l >= 1.0)
+            st["mean_200_sig"] += int(d200m >= 1.0 and p200 < 0.01)
+            st["left_200_sig"] += int(d200l >= 1.0 and p200 < 0.01)
+            st["left_200_ge1_only"] += int(d200l >= 1.0)
             st["rows"].append({
                 "cfg": cfg, "bgL": float(r["bg_mn9_l_hz"]), "bgR": float(r["bg_mn9_r_hz"]),
-                "d50m": d50m, "d50l": d50l, "d200m": d200m, "d200l": d200l,
+                "d50m": d50m, "d50l": d50l, "p50": p50,
+                "d200m": d200m, "d200l": d200l, "p200": p200,
             })
     for k, v in sorted(direct_audit.items()):
-        print(f"  {k:24s} (n={v['n_pts']:2d}): 50Hz mean>=1: {v['mean_50_ge1']}/{v['n_pts']}, left>=1: {v['left_50_ge1']}/{v['n_pts']} | 200Hz mean>=1: {v['mean_200_ge1']}/{v['n_pts']}, left>=1: {v['left_200_ge1']}/{v['n_pts']}", flush=True)
+        print(
+            f"  {k:24s} (n={v['n_pts']:2d}): 50Hz mean(sig)={v['mean_50_sig']}/{v['n_pts']}, left(sig)={v['left_50_sig']}/{v['n_pts']} (ge1={v['left_50_ge1_only']}) | "
+            f"200Hz mean(sig)={v['mean_200_sig']}/{v['n_pts']}, left(sig)={v['left_200_sig']}/{v['n_pts']} (ge1={v['left_200_ge1_only']})",
+            flush=True,
+        )
 
     # =========================================================================
     # PART 6: Recompute ALL static-baseline S4A rows at B=100,000 seed=42
