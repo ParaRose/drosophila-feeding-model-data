@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Verify all 24 S2A rows and 8 threshold/denominator rows directly from archived JSONs.
+"""Verify all S2A rows, threshold/denominator rows, and V7 final controls directly from archived JSONs.
 
-Run from the root of the public `drosophila-feeding-model-data` repository (v6.0):
+Run from the root of the public `drosophila-feeding-model-data` repository (v7.0):
     python code/verify_s2a_from_archived_jsons.py
 """
 from __future__ import annotations
@@ -174,13 +174,28 @@ def main() -> None:
             f"y02/05={stepwise_auprc(y_02,s):.4f}/{stepwise_auprc(y_05,s):.4f}"
         )
 
-    # Sanity-check S1_Table.tsv row count if present
+    # Sanity-check S1_Table.tsv row count and unmapped vice/weaver dimorphism flag if present
     s1_tsv = root / "data" / "S1_Table.tsv"
     if s1_tsv.exists():
         with s1_tsv.open() as f:
-            n_rows = sum(1 for _ in csv.DictReader(f, delimiter="\t"))
-        assert n_rows == 106, f"Expected 106 rows in S1_Table.tsv, got {n_rows}"
-        print(f"\nVerified {s1_tsv}: {n_rows} rows OK.")
+            s1_rows = list(csv.DictReader(f, delimiter="\t"))
+        assert len(s1_rows) == 106, f"Expected 106 rows in S1_Table.tsv, got {len(s1_rows)}"
+        by_nm = {r["name"]: r for r in s1_rows}
+        assert by_nm["vice"]["malecns_dimorphism_fruDsx"] == "unmapped"
+        assert by_nm["weaver"]["malecns_dimorphism_fruDsx"] == "unmapped"
+        print(f"\nVerified {s1_tsv}: 106 rows OK (vice/weaver dimorphism='unmapped').")
+
+    # Verify V7 final controls JSON if present
+    v7_path = res / "mn9_v7_final_controls_results.json"
+    if v7_path.exists():
+        v7 = json.loads(v7_path.read_text(encoding="utf-8"))
+        print("\n=== V7 FINAL CONTROLS VERIFICATION ===")
+        print(f"  v783 3-hop best (a3=0.003): {v7['v783_threehop']['signed_relu']['a3_0.003']['all106_auprc']:.4f} (vs LIF p={v7['v783_threehop_boots_100k']['all106_vs_3hop_best']['p_two_sided']:.4f})")
+        print(f"  BANC homCT 3-hop (a3=1e-4): {v7['banc_threehop']['homolog_1to1_ct_weighted']['signed_relu']['a3_0.0001']['all106_auprc']:.4f} (vs LIF p={v7['banc_threehop_boots_100k']['BANC_HomCT_LIF_vs_Fair3hop_best']['p_two_sided']:.4f})")
+        print(f"  Male homPred 3-hop (a3=3e-4): {v7['malecns_threehop']['predicted_nt_homolog_weighted']['signed_relu']['a3_0.0003']['all106_auprc']:.4f} (vs LIF mean p={v7['malecns_threehop_boots_100k']['Male_HomPred_LIF_mean_vs_Fair3hop_best']['p_two_sided']:.4f}, left p={v7['malecns_threehop_boots_100k']['Male_HomPred_LIF_left_vs_Fair3hop_best']['p_two_sided']:.4f})")
+        hp = v7["malecns_intact_left_vs_bilateral_audit_100k"]["homolog_prednt_50hz"]
+        print(f"  MaleCNS Hom+NT bilateral={hp['bilateral_mean']['all106_auprc']:.4f} (TOST p={hp['bilateral_mean']['vs_v783_gt0']['tost_0p05_p']:.4f}) | intact_L={hp['intact_left']['all106_auprc']:.4f} (TOST p={hp['intact_left']['vs_v783_gt0']['tost_0p05_p']:.4f})")
+        print("  SELK v783 50Hz/200Hz Amulet:", v7["selk_proboscis_mns_and_amulet"]["v783_frozen"]["50hz"]["groups"]["Amulet"]["mean_hz"], "/", v7["selk_proboscis_mns_and_amulet"]["v783_frozen"]["200hz"]["groups"]["Amulet"]["mean_hz"])
 
 
 if __name__ == "__main__":

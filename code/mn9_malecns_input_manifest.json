@@ -1,0 +1,1499 @@
+{
+  "protocol_commit": "8a01636e7017f08d4147d52c717e2cedd132fa20",
+  "w_syn_frozen_mv": 0.275,
+  "s_in_mn9_v783_mean": 5732.5,
+  "mn9_malecns_body_ids": {
+    "left": 10331,
+    "right": 16949
+  },
+  "sez106": [
+    {
+      "name": "roundup",
+      "y_bin": 1,
+      "y_max": 1.0,
+      "y_mean": 0.9,
+      "prior_published": true,
+      "v783_cell_types": [
+        "CB0553"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "diatom",
+      "y_bin": 1,
+      "y_max": 0.6,
+      "y_mean": 0.5,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB4148",
+        "CB4149"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "sink_sync",
+      "y_bin": 1,
+      "y_max": 0.2,
+      "y_mean": 0.2,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0225",
+        "CB0434",
+        "DNg61"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "G2N_1",
+      "y_bin": 1,
+      "y_max": 1.0,
+      "y_mean": 1.0,
+      "prior_published": true,
+      "v783_cell_types": [
+        "CB0616"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "clavicle",
+      "y_bin": 1,
+      "y_max": 0.5,
+      "y_mean": 0.5,
+      "prior_published": true,
+      "v783_cell_types": [
+        "AN_GNG_30"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "Fdg",
+      "y_bin": 1,
+      "y_max": 0.8,
+      "y_mean": 0.8,
+      "prior_published": true,
+      "v783_cell_types": [
+        "CB0038"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "bract",
+      "y_bin": 1,
+      "y_max": 0.8,
+      "y_mean": 0.65,
+      "prior_published": true,
+      "v783_cell_types": [
+        "DNge173",
+        "DNge174"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "vice",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB2551"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "rattle",
+      "y_bin": 1,
+      "y_max": 0.9,
+      "y_mean": 0.9,
+      "prior_published": true,
+      "v783_cell_types": [
+        "CB0499"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "FMIn",
+      "y_bin": 1,
+      "y_max": 1.0,
+      "y_mean": 0.7999999999999999,
+      "prior_published": true,
+      "v783_cell_types": [
+        "CB0366"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "TH_VUM",
+      "y_bin": 1,
+      "y_max": 1.0,
+      "y_mean": 0.95,
+      "prior_published": true,
+      "v783_cell_types": [
+        "CB3958"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "aster",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0722"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "seagull",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0494"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "mist",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0588"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "kitty",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0370",
+        "CB0759"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "fudog",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": true,
+      "v783_cell_types": [
+        "DNg67"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "aDT6",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB1951",
+        "CB2367",
+        "CB2537",
+        "CB3312",
+        "CB3413",
+        "CB3627"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "aSG1",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CAPA"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "aSG7",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0699",
+        "CB0878"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "amulet",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0626"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "asteroid",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0605",
+        "DNge029"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "bamboo",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "vLN26"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "basket",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB2195",
+        "CB2415",
+        "CB3150",
+        "CB3158"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "bluebell",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "DNg60"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "bobber",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "DNg85"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "box",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0241"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "bridle",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "Hugin-RG"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "brontosaraus",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB1397",
+        "CB2388"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "broom",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0543"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "buddy",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0806"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "coy",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB3884"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "crab",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "VES025"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "cradle",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0842"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "damsel",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0831",
+        "CB0916"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "doublescoop",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0576"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "earmuff",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0550",
+        "CB0653"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "eiffel",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0113"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "fluff",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB3813"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "foxglove",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0890"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "gallinule",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB1049",
+        "CB1228",
+        "CB2291",
+        "CB3485",
+        "CB3527"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "gazebo",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0519"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "genie",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "DNg72"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "gnome",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0110"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "good_dog",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0095"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "gumdrop",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "DNg80"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "handle",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0596",
+        "CB0597"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "handup",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0180",
+        "DNge034"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "haystack",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0502"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "horn",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB3899",
+        "CB3923"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "horntail",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0565"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "horseshoe",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0840",
+        "CB1267",
+        "CB2303",
+        "CB3156",
+        "CB3267"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "hound",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0892"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "hyacinth",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0017",
+        "CB0041",
+        "CB0138"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "justice",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0461"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "kelp",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0212",
+        "CB0262"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "knees",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "DNg05_a"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "kokopelli",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0610"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "landslide",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "cL09"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "lion",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0402"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "mandala",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB2197",
+        "CB3238",
+        "cL01"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "marge",
+      "y_bin": 1,
+      "y_max": 0.1,
+      "y_mean": 0.1,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0812"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "meteor",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0623"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "mime",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0963",
+        "CB1097",
+        "CB1974",
+        "CB2299",
+        "CB2355"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "moor",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0834"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "mothership",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "DNge046"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "mute",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "DNge172"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "nagini",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "DNg15"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "nori",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB2516"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "oink",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB2054",
+        "CB2516",
+        "CB2968",
+        "CB3438"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "OinkT",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB1517",
+        "CB2233",
+        "CB3153"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "oval",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "DNg93"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "pSG1",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0075",
+        "CB0959"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "peacock",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0746"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "peafowl",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0687"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "peahen",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0643"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "phantom",
+      "y_bin": 1,
+      "y_max": 0.6,
+      "y_mean": 0.6,
+      "prior_published": true,
+      "v783_cell_types": [
+        "CB0062"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "planter",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0213"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "pleco",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0572"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "pringle",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0571"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "puddle",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0923"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "rocket",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0981",
+        "CB2160",
+        "CB2872"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "rose",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB3886"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "ruby",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0901"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "Salivary_MN13",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0836"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "shark",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0004",
+        "CB0918"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "snake",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "DNg77"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "spirit",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0045"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "spray",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0456"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "sullivan",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0631"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "sundrop",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0175"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "tentacular",
+      "y_bin": 1,
+      "y_max": 0.5,
+      "y_mean": 0.5,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0821"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "tinctoria",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0700",
+        "MN10"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "tophat",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "AVLP447",
+        "Z_vPNml1"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "TPN4",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "M_imPNl92"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "trident",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB3916"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "trogon",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0066"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "trumpet",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0153"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "tulip",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0579"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "tundra",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0833"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "turner",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CL114"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "twirl",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB3901"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "usnea",
+      "y_bin": 1,
+      "y_max": 1.0,
+      "y_mean": 1.0,
+      "prior_published": true,
+      "v783_cell_types": [
+        "CB0008"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "wafflecone",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0696"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "weaver",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB1825",
+        "CB2821",
+        "CB3792"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "web",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0076",
+        "DNg105",
+        "DNg74_a",
+        "DNg74_b"
+      ],
+      "v783_hemibrain_types": []
+    },
+    {
+      "name": "whisker",
+      "y_bin": 0,
+      "y_max": 0.0,
+      "y_mean": 0.0,
+      "prior_published": false,
+      "v783_cell_types": [
+        "CB0618"
+      ],
+      "v783_hemibrain_types": []
+    }
+  ],
+  "extra_crosslab_types": {
+    "SELK_DNg68": {
+      "v783_cell_types": [
+        "DNg68"
+      ]
+    },
+    "Fdg_CB0038": {
+      "v783_cell_types": [
+        "CB0038"
+      ]
+    },
+    "Amulet_CB0626": {
+      "v783_cell_types": [
+        "CB0626"
+      ]
+    }
+  },
+  "neg_inh_ctrl44": [
+    "OinkT",
+    "amulet",
+    "asteroid",
+    "bamboo",
+    "bluebell",
+    "box",
+    "broom",
+    "buddy",
+    "coy",
+    "cradle",
+    "earmuff",
+    "fluff",
+    "foxglove",
+    "genie",
+    "gnome",
+    "good_dog",
+    "handle",
+    "handup",
+    "horn",
+    "horntail",
+    "kokopelli",
+    "landslide",
+    "lion",
+    "moor",
+    "mothership",
+    "nori",
+    "oink",
+    "oval",
+    "peafowl",
+    "planter",
+    "pleco",
+    "pringle",
+    "rocket",
+    "rose",
+    "spray",
+    "sundrop",
+    "tophat",
+    "trident",
+    "tundra",
+    "turner",
+    "twirl",
+    "wafflecone",
+    "web",
+    "whisker"
+  ],
+  "v783_mn9_presyn_types": [
+    "AN_GNG_30",
+    "AVLP447",
+    "CAPA",
+    "CB0004",
+    "CB0008",
+    "CB0017",
+    "CB0038",
+    "CB0041",
+    "CB0045",
+    "CB0062",
+    "CB0066",
+    "CB0075",
+    "CB0076",
+    "CB0095",
+    "CB0110",
+    "CB0113",
+    "CB0138",
+    "CB0153",
+    "CB0175",
+    "CB0180",
+    "CB0212",
+    "CB0213",
+    "CB0225",
+    "CB0241",
+    "CB0262",
+    "CB0366",
+    "CB0370",
+    "CB0402",
+    "CB0434",
+    "CB0456",
+    "CB0461",
+    "CB0494",
+    "CB0499",
+    "CB0502",
+    "CB0519",
+    "CB0543",
+    "CB0550",
+    "CB0553",
+    "CB0565",
+    "CB0571",
+    "CB0572",
+    "CB0576",
+    "CB0579",
+    "CB0588",
+    "CB0596",
+    "CB0597",
+    "CB0605",
+    "CB0610",
+    "CB0616",
+    "CB0618",
+    "CB0623",
+    "CB0626",
+    "CB0631",
+    "CB0643",
+    "CB0653",
+    "CB0687",
+    "CB0696",
+    "CB0699",
+    "CB0700",
+    "CB0722",
+    "CB0746",
+    "CB0759",
+    "CB0806",
+    "CB0812",
+    "CB0821",
+    "CB0831",
+    "CB0833",
+    "CB0834",
+    "CB0836",
+    "CB0840",
+    "CB0842",
+    "CB0878",
+    "CB0890",
+    "CB0892",
+    "CB0901",
+    "CB0916",
+    "CB0918",
+    "CB0923",
+    "CB0959",
+    "CB0963",
+    "CB0981",
+    "CB1049",
+    "CB1097",
+    "CB1228",
+    "CB1267",
+    "CB1397",
+    "CB1517",
+    "CB1825",
+    "CB1951",
+    "CB1974",
+    "CB2054",
+    "CB2160",
+    "CB2195",
+    "CB2197",
+    "CB2233",
+    "CB2291",
+    "CB2299",
+    "CB2303",
+    "CB2355",
+    "CB2367",
+    "CB2388",
+    "CB2415",
+    "CB2516",
+    "CB2537",
+    "CB2551",
+    "CB2821",
+    "CB2872",
+    "CB2968",
+    "CB3150",
+    "CB3153",
+    "CB3156",
+    "CB3158",
+    "CB3238",
+    "CB3267",
+    "CB3312",
+    "CB3413",
+    "CB3438",
+    "CB3485",
+    "CB3527",
+    "CB3627",
+    "CB3792",
+    "CB3813",
+    "CB3884",
+    "CB3886",
+    "CB3899",
+    "CB3901",
+    "CB3916",
+    "CB3923",
+    "CB3958",
+    "CB4148",
+    "CB4149",
+    "CL114",
+    "DNg05_a",
+    "DNg105",
+    "DNg15",
+    "DNg60",
+    "DNg61",
+    "DNg67",
+    "DNg72",
+    "DNg74_a",
+    "DNg74_b",
+    "DNg77",
+    "DNg80",
+    "DNg85",
+    "DNg93",
+    "DNge029",
+    "DNge034",
+    "DNge046",
+    "DNge172",
+    "DNge173",
+    "DNge174",
+    "Hugin-RG",
+    "MN10",
+    "M_imPNl92",
+    "VES025",
+    "Z_vPNml1",
+    "cL01",
+    "cL09",
+    "vLN26"
+  ],
+  "v783_top15_types": {
+    "tentacular": {
+      "hop2_ipre": [],
+      "hop2_antag_epre": [],
+      "hop3_i1": []
+    },
+    "phantom": {
+      "hop2_ipre": [],
+      "hop2_antag_epre": [],
+      "hop3_i1": []
+    },
+    "marge": {
+      "hop2_ipre": [],
+      "hop2_antag_epre": [],
+      "hop3_i1": []
+    },
+    "usnea": {
+      "hop2_ipre": [],
+      "hop2_antag_epre": [],
+      "hop3_i1": []
+    }
+  },
+  "banc_top15_types": {
+    "tentacular": {
+      "hop2_ipre": [],
+      "hop2_antag_epre": [],
+      "hop3_i1": []
+    },
+    "phantom": {
+      "hop2_ipre": [],
+      "hop2_antag_epre": [],
+      "hop3_i1": []
+    },
+    "marge": {
+      "hop2_ipre": [],
+      "hop2_antag_epre": [],
+      "hop3_i1": []
+    },
+    "usnea": {
+      "hop2_ipre": [],
+      "hop2_antag_epre": [],
+      "hop3_i1": []
+    }
+  }
+}

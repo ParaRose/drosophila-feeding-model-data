@@ -1,7 +1,7 @@
 {
   "title": "Code and supporting data for Cross-connectome transfer of a Drosophila spiking feeding model: proofreading stability, reconstruction shifts, and homolog calibration",
   "upload_type": "dataset",
-  "description": "Simulation and analysis code, S2A verification script, eight archived result files, and nine supplementary files for the V6 submission (v5.0 retained for provenance).",
+  "description": "MIT-licensed simulation and analysis code, S2A/V7 verification script, standalone MaleCNS input manifest, archived Chinese protocol, nine archived result files, and nine supplementary files for the V7 submission (v5.0 and v6.0 retained for provenance).",
   "creators": [
     {
       "name": "Peng, Zihao",
@@ -20,5 +20,5 @@
     "spiking neural networks",
     "feeding behavior"
   ],
-  "version": "v6.0"
+  "version": "v7.0"
 }

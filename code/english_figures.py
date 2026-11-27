@@ -121,14 +121,32 @@ def _stepwise_auprc(y_true: np.ndarray, scores: np.ndarray) -> float:
     return float(ap)
 
 
-def _strat_auprc_ci95(y_true: np.ndarray, scores: np.ndarray, n_boot: int = 2000, seed: int = 42) -> list[float]:
+def _strat_auprc_ci95(y_true: np.ndarray, scores: np.ndarray, n_boot: int = 100000, seed: int = 42) -> list[float]:
     rng = np.random.default_rng(seed)
     pos_i = np.where(y_true == 1)[0]
     neg_i = np.where(y_true == 0)[0]
+    n_pos = len(pos_i)
+    if n_pos == 0:
+        return [0.0, 0.0]
+    bidx = np.hstack([rng.choice(pos_i, (n_boot, n_pos), True), rng.choice(neg_i, (n_boot, len(neg_i)), True)])
+    uniq, inv = np.unique(-scores, return_inverse=True)
+    K = len(uniq)
     vals = np.empty(n_boot, dtype=np.float64)
-    for b in range(n_boot):
-        idx = np.concatenate([rng.choice(pos_i, len(pos_i), True), rng.choice(neg_i, len(neg_i), True)])
-        vals[b] = _stepwise_auprc(y_true[idx], scores[idx])
+    ip = inv[bidx[:, :n_pos]]
+    ineg = inv[bidx[:, n_pos:]]
+    for st in range(0, n_boot, 20000):
+        en = min(st + 20000, n_boot)
+        m = en - st
+        tp = np.zeros((m, K), dtype=np.int32)
+        fp = np.zeros((m, K), dtype=np.int32)
+        ra = np.arange(m)[:, None]
+        np.add.at(tp, (ra, ip[st:en]), 1)
+        np.add.at(fp, (ra, ineg[st:en]), 1)
+        ct = np.cumsum(tp, axis=1)
+        tot = ct + np.cumsum(fp, axis=1)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            pr = np.where(tot > 0, ct / tot, 0.0)
+        vals[st:en] = np.sum((tp / float(n_pos)) * pr, axis=1)
     lo, hi = np.percentile(vals, [2.5, 97.5])
     return [float(lo), float(hi)]
 
@@ -237,7 +255,7 @@ def export_supp_tables(data: dict[str, dict]) -> None:
             w.writerow([
                 nm, int(r["y_bin"]), f"{r['y_max']:.4f}", f"{r['y_mean']:.4f}", int(bool(r["prior_published"])),
                 int(r["n_v783"]), int(r["n_banc_m1"]), int(r["n_banc_m2"]), int(r["n_malecns"]),
-                dim_map.get(nm, "none"), nt_str,
+                "unmapped" if int(r["n_malecns"]) == 0 else dim_map.get(nm, "none"), nt_str,
                 int(bool(r["is_direct_v783"])), int(bool(r["is_direct_banc_m1"])), int(bool(r["is_direct_malecns"])), is_dir_pnt,
                 f"{r['v783_static_2hop_relu']:.3f}", f"{r['banc_static_2hop_relu']:.3f}", f"{r['malecns_static_2hop_relu']:.3f}",
                 f"{v5_b_fair2h[i]:.3f}", f"{v5_m_fair2h[i]:.3f}",
@@ -1037,11 +1055,11 @@ def make_fig1(data: dict[str, dict], est: dict, preview_dir: Path | None) -> Non
 
     ax.set(
         xticks=x_centers, xticklabels=[s[0] for s in subsets],
-        xlim=(-0.92, 3.16), ylim=(0.0, 1.32),
+        xlim=(-0.92, 3.16), ylim=(0.0, 1.38),
         ylabel="Stepwise AUPRC",
         title="B   Multi-hop specificity vs K=100 fixed & K=10 gain-adj. nulls",
     )
-    ax.legend(frameon=False, loc="upper center", ncol=2, fontsize=6.0, columnspacing=0.65, handletextpad=0.3)
+    ax.legend(frameon=False, loc="upper center", ncol=2, fontsize=6.2, columnspacing=0.65, handletextpad=0.3)
 
     # --- Panel C (bottom-left): FlyWire v783 water silencing (all 11 types) ---
     ax = fig.add_subplot(gs[1, 0])
@@ -1087,12 +1105,12 @@ def make_fig1(data: dict[str, dict], est: dict, preview_dir: Path | None) -> Non
     ax.invert_yaxis()
     z_idx = next(i for i, r in enumerate(rows) if r["name"] == "Zorro")
     ax.annotate(
-        "+0.20 Hz (1.33→1.53 Hz)\nlow-baseline fluctuation",
+        "+0.20 Hz (40→46 spikes)\nlow-baseline fluctuation",
         xy=(15.0, z_idx), xytext=(22.0, z_idx - 1.35),
         fontsize=6.1, color=ORANGE,
         arrowprops=dict(arrowstyle="->", color=ORANGE, lw=0.7),
     )
-    ax.set(xlim=(-102, 85), xlabel="BANC v888 left MN9 rate change (%)", title="D   BANC v888 water silencing (all 11 types; base = 1.33 Hz)")
+    ax.set(xlim=(-102, 85), xlabel="BANC v888 left MN9 rate change (%)", title="D   BANC v888 water silencing (all 11 types; base = 1.33 Hz, 40 spikes)")
     m_l = r160["metrics_by_readout"]["mn9_l_contra_to_right"]["all_11"]
     ax.text(
         0.025, 0.04,
@@ -1282,6 +1300,15 @@ def make_fig2(data: dict[str, dict], est: dict, preview_dir: Path | None) -> Non
             return _stepwise_auprc(y_all[subset_mask], arr[subset_mask]), _strat_auprc_ci95(y_all[subset_mask], arr[subset_mask])
         return _stepwise_auprc(y_all, arr), _strat_auprc_ci95(y_all, arr)
 
+    v783_ref_pt, v783_ref_ci = _ci_ab([r["v783_50hz"] for r in m_rows])
+    v783_ref95_pt, v783_ref95_ci = _ci_ab([r["v783_50hz"] for r in m_rows], unpub_m)
+    b_raw_pt, b_raw_ci = _ci_ab([r["banc_frozen_50hz"] for r in m_rows])
+    b_tgt_pt, b_tgt_ci = _ci_ab([r["banc_anat_50hz"] for r in m_rows])
+    b_tgt95_pt, b_tgt95_ci = _ci_ab([r["banc_anat_50hz"] for r in m_rows], unpub_m)
+    m_bil_pt, m_bil_ci = _ci_ab([r["malecns_bilat_50hz_mean"] for r in m_rows])
+    m_tgt_pt, m_tgt_ci = _ci_ab([r["malecns_intact_50hz_mean"] for r in m_rows])
+    m_tgt95_pt, m_tgt95_ci = _ci_ab([r["malecns_intact_50hz_mean"] for r in m_rows], unpub_m)
+    m_dens_pt, m_dens_ci = _ci_ab(pb["malecns_density_scaled_sim"]["50hz"]["all_106_rates_mean"])
     m_b2_pt, m_b2_ci = _ci_ab(ab["phase_malecns"]["experiment_b2_fixed_02683_prednt"]["sweeps"]["50hz"]["per_type_mean_hz"])
     b1_4_med = float(b1_50["random_4_of_14"]["auprc_unpub95_median"])
     b1_4_iqr = [float(x) for x in b1_50["random_4_of_14"]["auprc_unpub95_iqr"]]
@@ -1294,12 +1321,12 @@ def make_fig2(data: dict[str, dict], est: dict, preview_dir: Path | None) -> Non
             "All 106 types (chance 0.132)",
             14.0 / 106.0,
             [
-                ("v783\nRef.", co["v783"]["all_106_50hz"], co["v783"]["all_106_ci95"], TEAL, None),
-                ("BANC\nRaw", b_f_all["models"]["frozen_50hz"]["auprc"], b_f_all["models"]["frozen_50hz"]["ci95"]["auprc"], SLATE, None),
-                ("BANC\nTarget", co["banc"]["all_106_50hz"], co["banc"]["all_106_ci95"], ORANGE, None),
-                ("Male\nBlind", m_bil_all["models"]["50hz"]["auprc"], m_bil_all["models"]["50hz"]["ci95"]["auprc"], CRIMSON, "///"),
-                ("Male\nTarget", co["malecns"]["all_106_50hz"], co["malecns"]["all_106_ci95"], INDIGO, None),
-                ("Male\nDensity", pb["malecns_density_scaled_sim"]["50hz"]["all_106_auprc"], ci_b3_50["all_106_ci95"], INDIGO_LIGHT, None),
+                ("v783\nRef.", v783_ref_pt, v783_ref_ci, TEAL, None),
+                ("BANC\nRaw", b_raw_pt, b_raw_ci, SLATE, None),
+                ("BANC\nTarget", b_tgt_pt, b_tgt_ci, ORANGE, None),
+                ("Male\nBlind", m_bil_pt, m_bil_ci, CRIMSON, "///"),
+                ("Male\nTarget", m_tgt_pt, m_tgt_ci, INDIGO, None),
+                ("Male\nDensity", m_dens_pt, m_dens_ci, INDIGO_LIGHT, None),
                 ("Male Fix.\nPred-NT", m_b2_pt, m_b2_ci, PURPLE, None),
             ],
         ),
@@ -1307,10 +1334,10 @@ def make_fig2(data: dict[str, dict], est: dict, preview_dir: Path | None) -> Non
             "Unpub. 95 (chance 0.042)",
             4.0 / 95.0,
             [
-                ("v783\nRef.", co["v783"]["novel_95_50hz"], co["v783"]["novel_95_ci95"], TEAL, None),
+                ("v783\nRef.", v783_ref95_pt, v783_ref95_ci, TEAL, None),
                 ("v783\ndia 4/14", b1_4_med, b1_4_iqr, TEAL_LIGHT, "///"),
-                ("BANC\nTarget", co["banc"]["novel_95_50hz"], co["banc"]["novel_95_ci95"], ORANGE, None),
-                ("Male\nTarget", co["malecns"]["novel_95_50hz"], co["malecns"]["novel_95_ci95"], INDIGO, None),
+                ("BANC\nTarget", b_tgt95_pt, b_tgt95_ci, ORANGE, None),
+                ("Male\nTarget", m_tgt95_pt, m_tgt95_ci, INDIGO, None),
                 ("Male\nHom.+NT", m_homp95_pt, m_homp95_ci, "#00574b", None),
             ],
         ),
@@ -1349,26 +1376,29 @@ def make_fig2(data: dict[str, dict], est: dict, preview_dir: Path | None) -> Non
     ax_d = fig.add_subplot(gs[1, 1])
     v783_int_pt, v783_int_ci = _ci_ab(ab["phase_b1_v783"]["v783_intrinsic_inv_sin_reference"]["sweeps"]["50hz"]["per_type_mean_hz"])
     b_sug_pt, b_sug_ci = _ci_ab(ab["phase_banc"]["a1_sugar_anchor"]["sweeps"]["50hz"]["per_type_mean_hz"])
-    b_ct_pt, b_ct_ci = float(b_ct_sw["auprc_all106"]), [float(x) for x in b_ct_sw["ci95_all106"]]
+    b_ct_pt, b_ct_ci = _ci_ab(b_ct_sw["per_type_mean_hz"])
     m_r17p_pt, m_r17p_ci = _ci_ab(ab["phase_malecns"]["a1_sugar_anchor_prednt"]["sweeps_at_right17_wstar"]["50hz"]["per_type_mean_hz"])
     m_ts = v5["phase2_malecns"]["m2b_two_scale_mn9_02638_rest_01567"]
+    m_ts_pt, m_ts_ci = _ci_ab(m_ts["per_type_mean_hz"])
     m_shuf_recs = v5["phase2_malecns"]["m2a_shuffle_non_mn9"]
     m_shuf_vals = np.array([r["auprc_all106"] for r in m_shuf_recs], dtype=float)
     m_bref = v5["phase2_malecns"]["m2c_banc_ref_to_malecns"]
+    m_bref_pt, m_bref_ci = _ci_ab(m_bref["per_type_mean_hz"])
     m_lo = v5["phase2_malecns"]["m2b_leave_out_sez106_and_mn9"]
+    m_lo_pt, m_lo_ci = _ci_ab(m_lo["per_type_mean_hz"])
     m_homp_pt, m_homp_ci = _ci_ab(ab["phase_malecns"]["a2a_homolog_per_neuron_norm_prednt"]["sweeps"]["50hz"]["per_type_mean_hz"])
     fair_2h = float(v5["phase2_malecns"]["m4_malecns_fair_twohop"]["predicted_nt_homolog_weighted"]["signed_relu"]["alpha_0.01"]["all106_auprc"])
 
     d_items = [
-        ("v783\nRef.", co["v783"]["all_106_50hz"], co["v783"]["all_106_ci95"], TEAL, None, None),
+        ("v783\nRef.", v783_ref_pt, v783_ref_ci, TEAL, None, None),
         ("v783\nFlat 1/S", v783_int_pt, v783_int_ci, SLATE_LIGHT, "///", None),
         ("BANC\nSugar", b_sug_pt, b_sug_ci, ORANGE_LIGHT, None, None),
         ("BANC\nHom. CT", b_ct_pt, b_ct_ci, "#9e3f08", None, None),
         ("Male\nSugar+NT", m_r17p_pt, m_r17p_ci, "#8b5eb0", None, None),
-        ("Male\n2-Scale", float(m_ts["auprc_all106"]), [float(x) for x in m_ts["ci95_all106"]], GOLD, "///", None),
+        ("Male\n2-Scale", m_ts_pt, m_ts_ci, GOLD, "///", None),
         ("Male\nShuffled", float(m_shuf_vals.mean()), None, CRIMSON, None, m_shuf_vals),
-        ("Male\nBANC-Ref", float(m_bref["auprc_all106"]), [float(x) for x in m_bref["ci95_all106"]], "#2f6b8a", None, None),
-        ("Male\nLeave-Out", float(m_lo["auprc_all106"]), [float(x) for x in m_lo["ci95_all106"]], "#00838f", None, None),
+        ("Male\nBANC-Ref", m_bref_pt, m_bref_ci, "#2f6b8a", None, None),
+        ("Male\nLeave-Out", m_lo_pt, m_lo_ci, "#00838f", None, None),
         ("Male\nHom.+NT", m_homp_pt, m_homp_ci, "#00574b", None, None),
     ]
     rng_d = np.random.default_rng(11)
@@ -1444,7 +1474,7 @@ def make_fig3(data: dict[str, dict], est: dict, preview_dir: Path | None) -> Non
 
     ax_a2.plot(freqs, np.log1p(fdg_v7_raw), "o-", color=TEAL, lw=1.7, ms=4.5, label="Fdg (v783)")
     ax_a2.plot(freqs, np.log1p(fdg_mc_raw), "s-", color=INDIGO, lw=1.6, ms=4.2, label="Fdg (MaleCNS)")
-    ax_a2.plot(freqs, np.log1p(fdg_ba_raw), "^--", color=TEAL_LIGHT, lw=1.5, ms=4.3, label="Fdg (BANC)")
+    ax_a2.plot(freqs, np.log1p(fdg_ba_raw), "^--", color="#009e73", lw=1.7, ms=4.8, label="Fdg (BANC)")
     ax_a2.plot(freqs, np.log1p(selk_v7_raw), "D-", color=CRIMSON, lw=1.3, ms=3.5, label="SELK (v783)")
     ax_a2.plot(freqs, np.log1p(selk_ba_raw), "v:", color=ORANGE, lw=1.3, ms=3.5, label="SELK (BANC)")
     ax_a2.plot(freqs, np.log1p(selk_mc_raw), "x-.", color=PURPLE, lw=1.4, ms=4.4, label="SELK (Male Target)")
@@ -1688,9 +1718,10 @@ def make_fig4(data: dict[str, dict], est: dict, preview_dir: Path | None) -> Non
             xp = x4 + (s_i - 1) * bw
             vals = [apct[bk][c][mkey] for c in c4]
             ax_sub.bar(xp, vals, width=bw * 0.84, color=col, alpha=0.88, label=blab if show_leg else None, zorder=2)
-            for xi, vi in zip(xp, vals):
+            for idx_c, (xi, vi) in enumerate(zip(xp, vals)):
                 if vi >= 80:
-                    ax_sub.text(xi, vi + 1.8, f"{vi:.0f}", ha="center", va="bottom", fontsize=4.6, fontweight="bold", color=col)
+                    y_off = 5.4 if (s_i == 1 and mkey == "hop3_disinh_pct" and idx_c == 1) else 1.8
+                    ax_sub.text(xi, vi + y_off, f"{vi:.0f}", ha="center", va="bottom", fontsize=4.6, fontweight="bold", color=col)
         ax_sub.axhline(50, color=SLATE_LIGHT, ls=":", lw=0.85, zorder=1)
         ax_sub.set_ylim(0, 116)
         ax_sub.set_yticks([0, 25, 50, 75, 100])
@@ -1761,8 +1792,8 @@ def make_fig4(data: dict[str, dict], est: dict, preview_dir: Path | None) -> Non
         xlim=(-4.6, 5.55),
         xticks=[slog1p(x) for x in xt_raw],
         xticklabels=[f"{x:+d}" if x != 0 else "0" for x in xt_raw],
-        xlabel="Premotor Oracle MN9 Δr at 200 Hz (Hz, signed log1p)",
-        title="D   Premotor Oracles (full 17×12: Fig. S1)",
+        xlabel="Premotor upper-bound MN9 Δr at 200 Hz (Hz, signed log1p)",
+        title="D   Premotor upper bounds (full 17×12: S1 Fig)",
     )
     ax_d.tick_params(axis="x", labelsize=6.2)
     ax_d.legend(frameon=False, loc="lower right", fontsize=5.8, handletextpad=0.3)
@@ -1851,7 +1882,7 @@ def make_figS1(data: dict[str, dict], preview_dir: Path | None) -> None:
     ax.set_xticklabels([c[0] for c in col_specs], fontsize=6.8)
     ax.set_yticks(range(len(row_specs)))
     ax.set_yticklabels([r[2] for r in row_specs], fontsize=7.6)
-    ax.set_title("Supplementary Figure S1. Complete diagnostic three-brain local premotor Oracle matrix (17 rows × 12 regimes; * = Δr ≥ +1.0 Hz, paired p < 0.01)", fontsize=9.0, fontweight="bold")
+    ax.set_title("S1 Fig. Complete diagnostic three-brain local premotor upper-bound matrix (17 rows × 12 regimes; * = Δr ≥ +1.0 Hz, paired p < 0.01)", fontsize=9.0, fontweight="bold")
     for spine in ax.spines.values():
         spine.set_visible(True)
         spine.set_color(SLATE_LIGHT)

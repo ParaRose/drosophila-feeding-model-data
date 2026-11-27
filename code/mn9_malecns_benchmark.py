@@ -1459,7 +1459,9 @@ def main() -> None:
     log(f"init: GPU={gpu_name} ({vram_gb:.1f} GB), torch={torch.__version__}, cpus={os.cpu_count()}, workers={args.workers}")
     assert vram_gb >= args.min_gpu_gb
 
-    manifest_path = cache_root / "mn9_malecns_input_manifest.json"
+    manifest_path = Path(__file__).resolve().parent / "mn9_malecns_input_manifest.json"
+    if not manifest_path.is_file():
+        manifest_path = cache_root / "mn9_malecns_input_manifest.json"
     if not manifest_path.is_file():
         manifest_path = Path("/tmp/mn9_malecns_input_manifest.json")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
